@@ -1,0 +1,13 @@
+cv:
+  name: Your Name
+  location: Your City
+  email: your.email@example.com
+  sections:
+    Summary:
+      - This is my CV managed with version control
+    Education:
+      - institution: Your University
+        area: Your Field
+        degree: Your Degree
+        start_date: 2020-09
+        end_date: 2024-05
