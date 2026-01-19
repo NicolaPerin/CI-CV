@@ -1,7 +1,8 @@
 cv:
-  name: Your Name
-  location: Your City
-  email: your.email@example.com
+  name: YOUR_NAME
+  location: YOUR_LOCATION
+  email: YOUR_EMAIL
+  phone: YOUR_PHONE
   sections:
     Summary:
       - This is my CV managed with version control
