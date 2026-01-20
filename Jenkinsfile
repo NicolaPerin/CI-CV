@@ -1,6 +1,13 @@
 pipeline {
     agent any
-    
+
+    environment {
+        CV_NAME = credentials('CV_NAME')
+        CV_LOCATION = credentials('CV_LOCATION')
+        CV_EMAIL = credentials('CV_EMAIL')
+        CV_PHONE = credentials('CV_PHONE')
+    }
+
     stages {
         stage('Build CV') {
             steps {
@@ -9,7 +16,16 @@ pipeline {
                     sh 'podman build -t rendercv-builder .'
                     
                     // Render the CV
-                    sh 'podman run --rm -v /home/nicola/curriculum-ci:/cv rendercv-builder rendercv render cv.yaml'
+                    sh '''
+                        podman run --rm \
+                          -v $(pwd):/cv \
+                          rendercv-builder \
+                          rendercv render cv-public.yaml \
+                          --cv.name "$CV_NAME" \
+                          --cv.location "$CV_LOCATION" \
+                          --cv.email "$CV_EMAIL" \
+                          --cv.phone "$CV_PHONE"
+                    '''
                 }
             }
         }
