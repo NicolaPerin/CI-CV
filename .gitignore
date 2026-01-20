@@ -9,3 +9,6 @@ cv.yaml
 __pycache__/
 *.pyc
 *.pyo
+
+# Agent file
+agent.jar
