@@ -10,6 +10,13 @@ pipeline {
     }
 
     stages {
+        stage('Prepare Builder') {
+            steps {
+                // Build the image once here to avoid race conditions in the matrix
+                sh 'podman build -t rendercv-builder .'
+            }
+        }
+
         stage('Build CV Matrix') {
             matrix {
                 axes {
@@ -26,8 +33,6 @@ pipeline {
                                 file(credentialsId: 'CV_PHOTO', variable: 'CV_PHOTO_FILE')
                             ]) {
                                 sh '''
-                                  podman build -t rendercv-builder .
-
                                   if [ "$VARIANT" = "with-photo" ]; then
                                     PHOTO_MOUNT="-v $CV_PHOTO_FILE:/cv/profile_picture.jpg:ro"
                                   else
@@ -37,32 +42,24 @@ pipeline {
                                   podman run --rm \
                                     -v $(pwd):/cv \
                                     $PHOTO_MOUNT \
-                                    -e CV_NAME \
-                                    -e CV_LOCATION \
-                                    -e CV_EMAIL \
-                                    -e CV_PHONE \
-                                    -e CV_BIRTHDAY \
-                                    -e VARIANT \
+                                    -e CV_NAME -e CV_LOCATION -e CV_EMAIL \
+                                    -e CV_PHONE -e CV_BIRTHDAY -e VARIANT \
                                     rendercv-builder \
                                     sh -c '
                                       set -e
-
-                                      # Start from base
                                       cp cv/base.yaml cv.yaml
 
-                                      # Apply overlays
                                       if [ "$VARIANT" = "with-photo" ]; then
-                                        yq eval-all \
-                                          '"'"'select(fileIndex == 0) * select(fileIndex == 1)'"'"' \
-                                          cv.yaml cv/overlays/photo.yaml > cv.tmp
+                                        # Use a simpler yq merge syntax
+                                        yq eval-all "select(fileIndex == 0) * select(fileIndex == 1)" \
+                                           cv.yaml cv/overlays/photo.yaml > cv.tmp
                                         mv cv.tmp cv.yaml
                                       fi
 
-                                      # Inject secrets
                                       envsubst < cv.yaml > cv.final.yaml
-
-                                      mkdir -p rendercv_output/${VARIANT}
-                                      rendercv render cv.final.yaml --output-dir rendercv_output/${VARIANT}
+                                      
+                                      # Render and place in specific variant folder
+                                      rendercv render cv.final.yaml --output-dir "rendercv_output/${VARIANT}"
                                     '
                                 '''
                             }
@@ -74,7 +71,8 @@ pipeline {
 
         stage('Archive PDFs') {
             steps {
-                archiveArtifacts artifacts: 'rendercv_output/**', fingerprint: true
+                // This will grab everything inside the variant folders
+                archiveArtifacts artifacts: 'rendercv_output/**/*.pdf, rendercv_output/**/*.png', fingerprint: true
             }
         }
     }
