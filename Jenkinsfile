@@ -6,6 +6,7 @@ pipeline {
         CV_LOCATION = credentials('CV_LOCATION')
         CV_EMAIL = credentials('CV_EMAIL')
         CV_PHONE = credentials('CV_PHONE')
+        CV_BIRTHDAY = credentials('CV_BIRTHDAY')
     }
 
     stages {
@@ -24,7 +25,8 @@ pipeline {
                           --cv.name "$CV_NAME" \
                           --cv.location "$CV_LOCATION" \
                           --cv.email "$CV_EMAIL" \
-                          --cv.phone "$CV_PHONE"
+                          --cv.phone "$CV_PHONE" \
+                          --cv.birthday "$CV_BIRTHDAY"
                     '''
                 }
             }
