@@ -27,22 +27,21 @@ pipeline {
                             ]) {
                                 sh '''
                                     podman build -t rendercv-builder .
-
+                                    
                                     podman run --rm \
-                                      -v $(pwd):/cv \
-                                      -e CV_NAME \
-                                      -e CV_LOCATION \
-                                      -e CV_EMAIL \
-                                      -e CV_PHONE \
-                                      -e CV_BIRTHDAY \
-                                      -e VARIANT \
-                                      -e CV_PHOTO_FILE \
-                                      rendercv-builder \
-                                      sh -c '
+                                    -v $(pwd):/cv \
+                                    -v "$CV_PHOTO_FILE:/cv/profile_picture.jpg:ro" \
+                                    -e CV_NAME \
+                                    -e CV_LOCATION \
+                                    -e CV_EMAIL \
+                                    -e CV_PHONE \
+                                    -e CV_BIRTHDAY \
+                                    -e VARIANT \
+                                    rendercv-builder \
+                                    sh -c '
                                         set -e
 
                                         if [ "$VARIANT" = "with-photo" ]; then
-                                            cp "$CV_PHOTO_FILE" profile_picture.jpg
                                             export CV_PHOTO_PATH=profile_picture.jpg
                                         else
                                             export CV_PHOTO_PATH=""
@@ -53,7 +52,7 @@ pipeline {
 
                                         mkdir -p rendercv_output/${VARIANT}
                                         mv rendercv_output/*.pdf rendercv_output/${VARIANT}/
-                                      '
+                                    '
                                 '''
                             }
                         }
