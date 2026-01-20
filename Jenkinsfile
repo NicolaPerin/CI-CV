@@ -58,9 +58,7 @@ pipeline {
 
                                         envsubst < "$TMP_YAML" > "$FINAL_YAML"
                                         
-                                        rendercv render "$FINAL_YAML" \
-                                        --output-dir "rendercv_output/${VARIANT}" \
-                                        --pdf-path "rendercv_output/${VARIANT}/${OUTPUT_FILENAME}"
+                                        rendercv render "$FINAL_YAML" --output-dir "rendercv_output/${VARIANT}"
                                         
                                         # Clean up the temporary YAMLs inside the container context
                                         rm "$TMP_YAML" "$FINAL_YAML"
