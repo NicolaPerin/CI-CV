@@ -10,6 +10,13 @@ pipeline {
     }
 
     stages {
+        stage('Initialize') {
+            steps {
+                // Clear the output folder at the start of the whole run
+                sh 'rm -rf rendercv_output'
+            }
+        }
+
         stage('Build CV Matrix') {
             matrix {
                 axes {
@@ -20,48 +27,42 @@ pipeline {
                 }
 
                 stages {
-                    stage('Render CV') {
+                    stage('Render') {
                         steps {
-                            // Using withCredentials to get the path to the secret file
                             withCredentials([file(credentialsId: 'CV_PHOTO', variable: 'SECRET_PHOTO_PATH')]) {
                                 sh '''
-                                  # Build the image
                                   podman build -t rendercv-builder .
 
-                                  # Preparation: If with-photo, copy secret to workspace so Podman sees it clearly
+                                  # Create branch-specific filenames to prevent race conditions
+                                  TMP_YAML="cv_${VARIANT}.yaml"
+                                  FINAL_YAML="cv_${VARIANT}.final.yaml"
+
+                                  # 1. Start with a clean copy of the base
+                                  cp cv/base.yaml ${TMP_YAML}
+
+                                  # 2. Handle photo variant
                                   if [ "$VARIANT" = "with-photo" ]; then
                                     cp "$SECRET_PHOTO_PATH" ./profile_picture.jpg
-                                    # Ensure the file isn't empty
-                                    if [ ! -s ./profile_picture.jpg ]; then
-                                       echo "ERROR: profile_picture.jpg is empty!"
-                                       exit 1
-                                    fi
+                                    
+                                    # Merge the photo overlay into the branch-specific YAML
+                                    yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' \
+                                       ${TMP_YAML} cv/overlays/photo.yaml > ${TMP_YAML}.tmp
+                                    mv ${TMP_YAML}.tmp ${TMP_YAML}
                                   fi
 
+                                  # 3. Inject secrets into the branch-specific YAML
+                                  envsubst < ${TMP_YAML} > ${FINAL_YAML}
+
+                                  # 4. Run Podman
+                                  # We mount the whole directory but tell RenderCV to use the specific FINAL_YAML
                                   podman run --rm \
                                     -v $(pwd):/cv:Z \
-                                    -e CV_NAME -e CV_LOCATION -e CV_EMAIL -e CV_PHONE -e CV_BIRTHDAY -e VARIANT \
+                                    -e VARIANT \
                                     rendercv-builder \
-                                    sh -c '
-                                      set -e
-                                      cp cv/base.yaml cv.yaml
+                                    rendercv render ${FINAL_YAML} --output-dir "rendercv_output/${VARIANT}"
 
-                                      if [ "$VARIANT" = "with-photo" ]; then
-                                        # Use yq to merge the photo config
-                                        yq eval-all "select(fileIndex == 0) * select(fileIndex == 1)" \
-                                           cv.yaml cv/overlays/photo.yaml > cv.tmp
-                                        mv cv.tmp cv.yaml
-                                      fi
-
-                                      # Replace env vars and render
-                                      envsubst < cv.yaml > cv.final.yaml
-                                      rendercv render cv.final.yaml --output-dir "rendercv_output/${VARIANT}"
-                                    '
-
-                                  # Cleanup sensitive photo from workspace after rendering
-                                  if [ -f ./profile_picture.jpg ]; then
-                                    rm ./profile_picture.jpg
-                                  fi
+                                  # 5. Cleanup branch-specific temporary files
+                                  rm -f ${TMP_YAML} ${FINAL_YAML} ./profile_picture.jpg
                                 '''
                             }
                         }
@@ -70,9 +71,12 @@ pipeline {
             }
         }
 
-        stage('Archive PDFs') {
+        stage('Archive Results') {
             steps {
-                archiveArtifacts artifacts: 'rendercv_output/**/*.pdf', fingerprint: true
+                // This will archive only the specific subfolders, avoiding top-level clutter
+                archiveArtifacts artifacts: 'rendercv_output/with-photo/*.pdf, rendercv_output/no-photo/*.pdf', 
+                                 fingerprint: true, 
+                                 allowEmptyArchive: false
             }
         }
     }
