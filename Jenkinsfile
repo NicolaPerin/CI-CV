@@ -26,8 +26,9 @@ pipeline {
                                 file(credentialsId: 'CV_PHOTO', variable: 'CV_PHOTO_FILE')
                             ]) {
                                 sh '''
-                                    podman build -t rendercv-builder .
-                                    podman run --rm \
+                                podman build -t rendercv-builder .
+
+                                podman run --rm \
                                     -v $(pwd):/cv \
                                     -v "$CV_PHOTO_FILE:/cv/profile_picture.jpg:ro" \
                                     -e CV_NAME \
@@ -38,27 +39,21 @@ pipeline {
                                     -e VARIANT \
                                     rendercv-builder \
                                     sh -c '
-                                        set -e
+                                    set -e
 
-                                        if [ "$VARIANT" = "with-photo" ]; then
-                                            export CV_PHOTO_PATH=profile_picture.jpg
-                                        else
-                                            export CV_PHOTO_PATH=""
-                                        fi
+                                    envsubst < cv-public.yaml > cv.yaml
 
-                                        envsubst < cv-public.yaml > cv.yaml
-                                        if [ "$VARIANT" = "with-photo" ]; then
-                                        awk '
-                                            /^cv:/ {
-                                            print
-                                            print "  photo: profile_picture.jpg"
-                                            next
-                                            }
-                                            { print }
-                                        ' cv.yaml > cv.tmp && mv cv.tmp cv.yaml
-                                        fi
-                                        mkdir -p rendercv_output/${VARIANT}
-                                        rendercv render cv.yaml --output-dir rendercv_output/${VARIANT}
+                                    if [ "$VARIANT" = "with-photo" ]; then
+                                        awk '\''/^cv:/ {
+                                        print
+                                        print "  photo: profile_picture.jpg"
+                                        next
+                                        }
+                                        { print }'\'' cv.yaml > cv.tmp && mv cv.tmp cv.yaml
+                                    fi
+
+                                    mkdir -p rendercv_output/${VARIANT}
+                                    rendercv render cv.yaml --output-dir rendercv_output/${VARIANT}
                                     '
                                 '''
                             }
