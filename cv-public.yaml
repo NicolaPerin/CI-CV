@@ -6,6 +6,10 @@ cv:
   birthday: ${CV_BIRTHDAY}
   photo: ${CV_PHOTO_PATH}
 
+  social_networks:
+    - network: GitHub
+      username: NicolaPerin
+
   sections:
     Summary:
       - This is my CV managed with version control
