@@ -32,12 +32,13 @@ pipeline {
                                 sh '''
                                     podman build -t rendercv-builder .
 
-                                    # 1. Copy photo to workspace if it exists for this variant
                                     if [ "$VARIANT" = "with-photo" ]; then
                                         cp "$SECRET_PHOTO_PATH" ./profile_picture.jpg
                                     fi
 
-                                    # 2. Run the build
+                                    # Create the output directory on the host BEFORE running container
+                                    mkdir -p "rendercv_output/${VARIANT}"
+
                                     podman run --rm \
                                         -v $(pwd):/cv:Z \
                                         -e CV_NAME -e CV_LOCATION -e CV_EMAIL \
@@ -57,14 +58,22 @@ pipeline {
                                         fi
 
                                         envsubst < "$TMP_YAML" > "$FINAL_YAML"
-                                        
-                                        rendercv render "$FINAL_YAML" --output-dir "rendercv_output/${VARIANT}"
-                                        
-                                        # Clean up the temporary YAMLs inside the container context
+
+                                        # Use explicit paths for each output file
+                                        rendercv render "$FINAL_YAML" \
+                                            --pdf-path "cv/rendercv_output/${VARIANT}/Nicola_Perin_CV.pdf" \
+                                            --typst-path "cv/rendercv_output/${VARIANT}/Nicola_Perin_CV.typ" \
+                                            --markdown-path "cv/rendercv_output/${VARIANT}/Nicola_Perin_CV.md" \
+                                            --html-path "cv/rendercv_output/${VARIANT}/Nicola_Perin_CV.html" \
+                                            --png-path "cv/rendercv_output/${VARIANT}/Nicola_Perin_CV.png"
+
                                         rm "$TMP_YAML" "$FINAL_YAML"
                                         '
 
-                                    # 3. SAFE CLEANUP: Only delete the photo after the container is totally finished
+                                    # Debug: show what was created
+                                    echo "=== Contents of rendercv_output/${VARIANT} ==="
+                                    ls -la "rendercv_output/${VARIANT}/"
+
                                     if [ -f ./profile_picture.jpg ]; then
                                         rm ./profile_picture.jpg
                                     fi
