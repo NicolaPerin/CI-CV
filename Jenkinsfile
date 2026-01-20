@@ -10,41 +10,61 @@ pipeline {
     }
 
     stages {
-        stage('Build CV') {
-            steps {
-                script {
-                    // Build the Podman image
-                    sh 'podman build -t rendercv-builder .'
+        stage('Build CV Matrix') {
+            matrix {
+                axes {
+                    axis {
+                        name 'VARIANT'
+                        values 'with-photo', 'no-photo'
+                    }
+                }
 
-                    // Generate cv.yaml from template and render the CV
-                    sh '''
-                        podman run --rm \
-                        -v $(pwd):/cv \
-                        -e CV_NAME \
-                        -e CV_LOCATION \
-                        -e CV_EMAIL \
-                        -e CV_PHONE \
-                        -e CV_BIRTHDAY \
-                        rendercv-builder \
-                        sh -c '
-                            : "${CV_NAME:?Missing CV_NAME}"
-                            : "${CV_LOCATION:?Missing CV_LOCATION}"
-                            : "${CV_EMAIL:?Missing CV_EMAIL}"
-                            : "${CV_PHONE:?Missing CV_PHONE}"
-                            : "${CV_BIRTHDAY:?Missing CV_BIRTHDAY}"
+                stages {
+                    stage('Render CV') {
+                        steps {
+                            withCredentials([
+                                file(credentialsId: 'CV_PHOTO', variable: 'CV_PHOTO_FILE')
+                            ]) {
+                                sh '''
+                                    podman build -t rendercv-builder .
 
-                            envsubst < cv-public.yaml > cv.yaml
-                            rendercv render cv.yaml
-                        '
-                    '''
+                                    podman run --rm \
+                                      -v $(pwd):/cv \
+                                      -e CV_NAME \
+                                      -e CV_LOCATION \
+                                      -e CV_EMAIL \
+                                      -e CV_PHONE \
+                                      -e CV_BIRTHDAY \
+                                      -e VARIANT \
+                                      -e CV_PHOTO_FILE \
+                                      rendercv-builder \
+                                      sh -c '
+                                        set -e
+
+                                        if [ "$VARIANT" = "with-photo" ]; then
+                                            cp "$CV_PHOTO_FILE" profile_picture.jpg
+                                            export CV_PHOTO_PATH=profile_picture.jpg
+                                        else
+                                            export CV_PHOTO_PATH=""
+                                        fi
+
+                                        envsubst < cv-public.yaml > cv.yaml
+                                        rendercv render cv.yaml
+
+                                        mkdir -p rendercv_output/${VARIANT}
+                                        mv rendercv_output/*.pdf rendercv_output/${VARIANT}/
+                                      '
+                                '''
+                            }
+                        }
+                    }
                 }
             }
         }
-        
-        stage('Archive PDF') {
+
+        stage('Archive PDFs') {
             steps {
-                // Archive the generated PDF as an artifact
-                archiveArtifacts artifacts: 'rendercv_output/*.pdf', fingerprint: true
+                archiveArtifacts artifacts: 'rendercv_output/**', fingerprint: true
             }
         }
     }
