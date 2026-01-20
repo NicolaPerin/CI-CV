@@ -15,18 +15,27 @@ pipeline {
                 script {
                     // Build the Podman image
                     sh 'podman build -t rendercv-builder .'
-                    
-                    // Render the CV
+
+                    // Generate cv.yaml from template and render the CV
                     sh '''
                         podman run --rm \
-                          -v $(pwd):/cv \
-                          rendercv-builder \
-                          rendercv render cv-public.yaml \
-                          --cv.name "$CV_NAME" \
-                          --cv.location "$CV_LOCATION" \
-                          --cv.email "$CV_EMAIL" \
-                          --cv.phone "$CV_PHONE" \
-                          --cv.birthday "$CV_BIRTHDAY"
+                        -v $(pwd):/cv \
+                        -e CV_NAME \
+                        -e CV_LOCATION \
+                        -e CV_EMAIL \
+                        -e CV_PHONE \
+                        -e CV_BIRTHDAY \
+                        rendercv-builder \
+                        sh -c '
+                            : "${CV_NAME:?Missing CV_NAME}"
+                            : "${CV_LOCATION:?Missing CV_LOCATION}"
+                            : "${CV_EMAIL:?Missing CV_EMAIL}"
+                            : "${CV_PHONE:?Missing CV_PHONE}"
+                            : "${CV_BIRTHDAY:?Missing CV_BIRTHDAY}"
+
+                            envsubst < cv-public.yaml > cv.yaml
+                            rendercv render cv.yaml
+                        '
                     '''
                 }
             }

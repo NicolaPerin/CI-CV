@@ -1,10 +1,9 @@
 FROM python:3.12-slim
 
-# Install RenderCV
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gettext && \
+    rm -rf /var/lib/apt/lists/*
+
 RUN pip install rendercv[full]
 
-# Set working directory
 WORKDIR /cv
-
-# Default command
-CMD [rendercv, --help]

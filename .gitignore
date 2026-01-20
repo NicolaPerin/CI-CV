@@ -3,6 +3,7 @@ venv/
 
 # RenderCV output
 rendercv_output/
+cv.yaml
 
 # Python cache
 __pycache__/

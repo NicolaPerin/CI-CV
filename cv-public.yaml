@@ -1,8 +1,9 @@
 cv:
-  name: YOUR_NAME
-  location: YOUR_LOCATION
-  email: YOUR_EMAIL
-  phone: YOUR_PHONE
+  name: ${CV_NAME}
+  location: ${CV_LOCATION}
+  email: ${CV_EMAIL}
+  phone: ${CV_PHONE}
+  birthday: ${CV_BIRTHDAY}
   sections:
     Summary:
       - This is my CV managed with version control
