@@ -10,13 +10,6 @@ pipeline {
     }
 
     stages {
-        stage('Prepare Builder') {
-            steps {
-                // Build the image once here to avoid race conditions in the matrix
-                sh 'podman build -t rendercv-builder .'
-            }
-        }
-
         stage('Build CV Matrix') {
             matrix {
                 axes {
@@ -29,38 +22,46 @@ pipeline {
                 stages {
                     stage('Render CV') {
                         steps {
-                            withCredentials([
-                                file(credentialsId: 'CV_PHOTO', variable: 'CV_PHOTO_FILE')
-                            ]) {
+                            // Using withCredentials to get the path to the secret file
+                            withCredentials([file(credentialsId: 'CV_PHOTO', variable: 'SECRET_PHOTO_PATH')]) {
                                 sh '''
+                                  # Build the image
+                                  podman build -t rendercv-builder .
+
+                                  # Preparation: If with-photo, copy secret to workspace so Podman sees it clearly
                                   if [ "$VARIANT" = "with-photo" ]; then
-                                    PHOTO_MOUNT="-v $CV_PHOTO_FILE:/cv/profile_picture.jpg:ro"
-                                  else
-                                    PHOTO_MOUNT=""
+                                    cp "$SECRET_PHOTO_PATH" ./profile_picture.jpg
+                                    # Ensure the file isn't empty
+                                    if [ ! -s ./profile_picture.jpg ]; then
+                                       echo "ERROR: profile_picture.jpg is empty!"
+                                       exit 1
+                                    fi
                                   fi
 
                                   podman run --rm \
-                                    -v $(pwd):/cv \
-                                    $PHOTO_MOUNT \
-                                    -e CV_NAME -e CV_LOCATION -e CV_EMAIL \
-                                    -e CV_PHONE -e CV_BIRTHDAY -e VARIANT \
+                                    -v $(pwd):/cv:Z \
+                                    -e CV_NAME -e CV_LOCATION -e CV_EMAIL -e CV_PHONE -e CV_BIRTHDAY -e VARIANT \
                                     rendercv-builder \
                                     sh -c '
                                       set -e
                                       cp cv/base.yaml cv.yaml
 
                                       if [ "$VARIANT" = "with-photo" ]; then
-                                        # Use a simpler yq merge syntax
+                                        # Use yq to merge the photo config
                                         yq eval-all "select(fileIndex == 0) * select(fileIndex == 1)" \
                                            cv.yaml cv/overlays/photo.yaml > cv.tmp
                                         mv cv.tmp cv.yaml
                                       fi
 
+                                      # Replace env vars and render
                                       envsubst < cv.yaml > cv.final.yaml
-                                      
-                                      # Render and place in specific variant folder
                                       rendercv render cv.final.yaml --output-dir "rendercv_output/${VARIANT}"
                                     '
+
+                                  # Cleanup sensitive photo from workspace after rendering
+                                  if [ -f ./profile_picture.jpg ]; then
+                                    rm ./profile_picture.jpg
+                                  fi
                                 '''
                             }
                         }
@@ -71,8 +72,7 @@ pipeline {
 
         stage('Archive PDFs') {
             steps {
-                // This will grab everything inside the variant folders
-                archiveArtifacts artifacts: 'rendercv_output/**/*.pdf, rendercv_output/**/*.png', fingerprint: true
+                archiveArtifacts artifacts: 'rendercv_output/**/*.pdf', fingerprint: true
             }
         }
     }
