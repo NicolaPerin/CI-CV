@@ -30,42 +30,44 @@ pipeline {
                         steps {
                             withCredentials([file(credentialsId: 'CV_PHOTO', variable: 'SECRET_PHOTO_PATH')]) {
                                 sh '''
-                                  podman build -t rendercv-builder .
+                                    podman build -t rendercv-builder .
 
-                                  # Copy photo to workspace if needed (so the container can see it)
-                                  if [ "$VARIANT" = "with-photo" ]; then
-                                    cp "$SECRET_PHOTO_PATH" ./profile_picture.jpg
-                                  fi
+                                    # 1. Copy photo to workspace if it exists for this variant
+                                    if [ "$VARIANT" = "with-photo" ]; then
+                                        cp "$SECRET_PHOTO_PATH" ./profile_picture.jpg
+                                    fi
 
-                                  # We run everything inside the container to ensure tool consistency
-                                  podman run --rm \
-                                    -v $(pwd):/cv:Z \
-                                    -e CV_NAME -e CV_LOCATION -e CV_EMAIL \
-                                    -e CV_PHONE -e CV_BIRTHDAY -e VARIANT \
-                                    rendercv-builder \
-                                    sh -c '
-                                      set -e
-                                      # Use variant-specific names to avoid race conditions
-                                      TMP_YAML="cv_${VARIANT}.yaml"
-                                      FINAL_YAML="cv_${VARIANT}.final.yaml"
+                                    # 2. Run the build
+                                    podman run --rm \
+                                        -v $(pwd):/cv:Z \
+                                        -e CV_NAME -e CV_LOCATION -e CV_EMAIL \
+                                        -e CV_PHONE -e CV_BIRTHDAY -e VARIANT \
+                                        rendercv-builder \
+                                        sh -c '
+                                        set -e
+                                        TMP_YAML="cv_${VARIANT}.yaml"
+                                        FINAL_YAML="cv_${VARIANT}.final.yaml"
 
-                                      cp cv/base.yaml "$TMP_YAML"
+                                        cp cv/base.yaml "$TMP_YAML"
 
-                                      if [ "$VARIANT" = "with-photo" ]; then
-                                        # Use the Go-yq inside the container (this will now work!)
-                                        yq eval-all "select(fileIndex == 0) * select(fileIndex == 1)" \
-                                           "$TMP_YAML" cv/overlays/photo.yaml > "${TMP_YAML}.tmp"
-                                        mv "${TMP_YAML}.tmp" "$TMP_YAML"
-                                      fi
+                                        if [ "$VARIANT" = "with-photo" ]; then
+                                            yq eval-all "select(fileIndex == 0) * select(fileIndex == 1)" \
+                                            "$TMP_YAML" cv/overlays/photo.yaml > "${TMP_YAML}.tmp"
+                                            mv "${TMP_YAML}.tmp" "$TMP_YAML"
+                                        fi
 
-                                      # Use envsubst inside the container
-                                      envsubst < "$TMP_YAML" > "$FINAL_YAML"
-                                      
-                                      rendercv render "$FINAL_YAML" --output-dir "rendercv_output/${VARIANT}"
-                                    '
+                                        envsubst < "$TMP_YAML" > "$FINAL_YAML"
+                                        
+                                        rendercv render "$FINAL_YAML" --output-dir "rendercv_output/${VARIANT}"
+                                        
+                                        # Clean up the temporary YAMLs inside the container context
+                                        rm "$TMP_YAML" "$FINAL_YAML"
+                                        '
 
-                                  # Cleanup photo after the branch is done
-                                  rm -f ./profile_picture.jpg
+                                    # 3. SAFE CLEANUP: Only delete the photo after the container is totally finished
+                                    if [ -f ./profile_picture.jpg ]; then
+                                        rm ./profile_picture.jpg
+                                    fi
                                 '''
                             }
                         }
