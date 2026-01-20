@@ -27,7 +27,6 @@ pipeline {
                             ]) {
                                 sh '''
                                     podman build -t rendercv-builder .
-                                    
                                     podman run --rm \
                                     -v $(pwd):/cv \
                                     -v "$CV_PHOTO_FILE:/cv/profile_picture.jpg:ro" \
@@ -48,10 +47,8 @@ pipeline {
                                         fi
 
                                         envsubst < cv-public.yaml > cv.yaml
-                                        rendercv render cv.yaml
-
                                         mkdir -p rendercv_output/${VARIANT}
-                                        mv rendercv_output/*.pdf rendercv_output/${VARIANT}/
+                                        rendercv render cv.yaml --output-dir rendercv_output/${VARIANT}
                                     '
                                 '''
                             }
