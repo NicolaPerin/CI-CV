@@ -36,7 +36,6 @@ pipeline {
                                         cp "$SECRET_PHOTO_PATH" ./profile_picture.jpg
                                     fi
 
-                                    # Create the output directory on the host BEFORE running container
                                     mkdir -p "rendercv_output/${VARIANT}"
 
                                     podman run --rm \
@@ -59,20 +58,15 @@ pipeline {
 
                                         envsubst < "$TMP_YAML" > "$FINAL_YAML"
 
-                                        # Use explicit paths for each output file
                                         rendercv render "$FINAL_YAML" \
-                                            --pdf-path "cv/rendercv_output/${VARIANT}/Nicola_Perin_CV.pdf" \
-                                            --typst-path "cv/rendercv_output/${VARIANT}/Nicola_Perin_CV.typ" \
-                                            --markdown-path "cv/rendercv_output/${VARIANT}/Nicola_Perin_CV.md" \
-                                            --html-path "cv/rendercv_output/${VARIANT}/Nicola_Perin_CV.html" \
-                                            --png-path "cv/rendercv_output/${VARIANT}/Nicola_Perin_CV.png"
+                                            --pdf-path "rendercv_output/${VARIANT}/Nicola_Perin_CV.pdf" \
+                                            --typst-path "rendercv_output/${VARIANT}/Nicola_Perin_CV.typ" \
+                                            --markdown-path "rendercv_output/${VARIANT}/Nicola_Perin_CV.md" \
+                                            --html-path "rendercv_output/${VARIANT}/Nicola_Perin_CV.html" \
+                                            --png-path "rendercv_output/${VARIANT}/Nicola_Perin_CV.png"
 
                                         rm "$TMP_YAML" "$FINAL_YAML"
                                         '
-
-                                    # Debug: show what was created
-                                    echo "=== Contents of rendercv_output/${VARIANT} ==="
-                                    ls -la "rendercv_output/${VARIANT}/"
 
                                     if [ -f ./profile_picture.jpg ]; then
                                         rm ./profile_picture.jpg
