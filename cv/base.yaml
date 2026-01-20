@@ -5,10 +5,6 @@ cv:
   phone: ${CV_PHONE}
   birthday: ${CV_BIRTHDAY}
 
-  social_networks:
-    - network: GitHub
-      username: NicolaPerin
-
   sections:
     Summary:
       - This is my CV managed with version control

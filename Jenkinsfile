@@ -2,10 +2,10 @@ pipeline {
     agent any
 
     environment {
-        CV_NAME = credentials('CV_NAME')
+        CV_NAME     = credentials('CV_NAME')
         CV_LOCATION = credentials('CV_LOCATION')
-        CV_EMAIL = credentials('CV_EMAIL')
-        CV_PHONE = credentials('CV_PHONE')
+        CV_EMAIL    = credentials('CV_EMAIL')
+        CV_PHONE    = credentials('CV_PHONE')
         CV_BIRTHDAY = credentials('CV_BIRTHDAY')
     }
 
@@ -26,11 +26,17 @@ pipeline {
                                 file(credentialsId: 'CV_PHOTO', variable: 'CV_PHOTO_FILE')
                             ]) {
                                 sh '''
-                                podman build -t rendercv-builder .
+                                  podman build -t rendercv-builder .
 
-                                podman run --rm \
+                                  if [ "$VARIANT" = "with-photo" ]; then
+                                    PHOTO_MOUNT="-v $CV_PHOTO_FILE:/cv/profile_picture.jpg:ro"
+                                  else
+                                    PHOTO_MOUNT=""
+                                  fi
+
+                                  podman run --rm \
                                     -v $(pwd):/cv \
-                                    -v "$CV_PHOTO_FILE:/cv/profile_picture.jpg:ro" \
+                                    $PHOTO_MOUNT \
                                     -e CV_NAME \
                                     -e CV_LOCATION \
                                     -e CV_EMAIL \
@@ -39,21 +45,24 @@ pipeline {
                                     -e VARIANT \
                                     rendercv-builder \
                                     sh -c '
-                                    set -e
+                                      set -e
 
-                                    envsubst < cv-public.yaml > cv.yaml
+                                      # Start from base
+                                      cp cv/base.yaml cv.yaml
 
-                                    if [ "$VARIANT" = "with-photo" ]; then
-                                        awk '\''/^cv:/ {
-                                        print
-                                        print "  photo: profile_picture.jpg"
-                                        next
-                                        }
-                                        { print }'\'' cv.yaml > cv.tmp && mv cv.tmp cv.yaml
-                                    fi
+                                      # Apply overlays
+                                      if [ "$VARIANT" = "with-photo" ]; then
+                                        yq eval-all \
+                                          '"'"'select(fileIndex == 0) * select(fileIndex == 1)'"'"' \
+                                          cv.yaml cv/overlays/photo.yaml > cv.tmp
+                                        mv cv.tmp cv.yaml
+                                      fi
 
-                                    mkdir -p rendercv_output/${VARIANT}
-                                    rendercv render cv.yaml --output-dir rendercv_output/${VARIANT}
+                                      # Inject secrets
+                                      envsubst < cv.yaml > cv.final.yaml
+
+                                      mkdir -p rendercv_output/${VARIANT}
+                                      rendercv render cv.final.yaml --output-dir rendercv_output/${VARIANT}
                                     '
                                 '''
                             }
