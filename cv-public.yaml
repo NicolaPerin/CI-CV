@@ -4,7 +4,6 @@ cv:
   email: ${CV_EMAIL}
   phone: ${CV_PHONE}
   birthday: ${CV_BIRTHDAY}
-  photo: ${CV_PHOTO_PATH}
 
   social_networks:
     - network: GitHub

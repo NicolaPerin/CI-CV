@@ -47,6 +47,9 @@ pipeline {
                                         fi
 
                                         envsubst < cv-public.yaml > cv.yaml
+                                        if [ "$VARIANT" = "with-photo" ]; then
+                                            sed -i '/^cv:/a\  photo: profile_picture.jpg' cv.yaml
+                                        fi
                                         mkdir -p rendercv_output/${VARIANT}
                                         rendercv render cv.yaml --output-dir rendercv_output/${VARIANT}
                                     '
