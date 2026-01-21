@@ -5,6 +5,9 @@ LANG="$1"
 PHOTO="$2"
 VARIANT_DIR="${LANG}-${PHOTO}"
 
+# Convert CV_NAME to filename format
+CV_FILENAME=$(echo "${CV_NAME}" | tr ' ' '_')"_CV"
+
 # Make PHOTO_FILE an absolute path for rendercv to find it
 if [ -n "$PHOTO_FILE" ]; then
     export PHOTO_FILE="/cv/${PHOTO_FILE}"
@@ -48,7 +51,7 @@ grep -E "^  photo:" "$FINAL_YAML" || echo "No photo field found"
 # Render - output to /cv which is the mounted volume
 mkdir -p "/cv/rendercv_output/${VARIANT_DIR}"
 rendercv render "$FINAL_YAML" \
-    --pdf-path "/cv/rendercv_output/${VARIANT_DIR}/Nicola_Perin_CV.pdf" \
+    --pdf-path "/cv/rendercv_output/${VARIANT_DIR}/${CV_FILENAME}.pdf" \
     --dont-generate-html \
     --dont-generate-markdown \
     --dont-generate-png
