@@ -5,8 +5,12 @@ LANG="$1"
 PHOTO="$2"
 VARIANT_DIR="${LANG}-${PHOTO}"
 
-TMP_YAML="cv_${VARIANT_DIR}.yaml"
-FINAL_YAML="cv_${VARIANT_DIR}.final.yaml"
+# Use unique temp directory per variant to avoid collisions
+WORK_DIR="/tmp/build_${VARIANT_DIR}"
+mkdir -p "$WORK_DIR"
+
+TMP_YAML="${WORK_DIR}/cv.yaml"
+FINAL_YAML="${WORK_DIR}/cv.final.yaml"
 
 # Start with base
 cp cv/base.yaml "$TMP_YAML"
@@ -26,6 +30,11 @@ fi
 # Substitute environment variables
 envsubst < "$TMP_YAML" > "$FINAL_YAML"
 
+# Debug: show what we're rendering
+echo "=== Building ${VARIANT_DIR} ==="
+echo "PHOTO_FILE=${PHOTO_FILE}"
+grep -E "^  photo:" "$FINAL_YAML" || echo "No photo field found"
+
 # Render
 mkdir -p "rendercv_output/${VARIANT_DIR}"
 rendercv render "$FINAL_YAML" \
@@ -35,4 +44,4 @@ rendercv render "$FINAL_YAML" \
     --dont-generate-png
 
 # Cleanup
-rm "$TMP_YAML" "$FINAL_YAML"
+rm -rf "$WORK_DIR"
