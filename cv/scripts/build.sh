@@ -20,7 +20,12 @@ FINAL_YAML="${WORK_DIR}/cv.final.yaml"
 # Start with base
 cp cv/base.yaml "$TMP_YAML"
 
-# Merge language overlay
+# Merge content for this language
+yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' \
+    "$TMP_YAML" "cv/overlays/content-${LANG}.yaml" > "${TMP_YAML}.tmp"
+mv "${TMP_YAML}.tmp" "$TMP_YAML"
+
+# Merge language/locale overlay
 yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' \
     "$TMP_YAML" "cv/overlays/lang-${LANG}.yaml" > "${TMP_YAML}.tmp"
 mv "${TMP_YAML}.tmp" "$TMP_YAML"

@@ -1,0 +1,26 @@
+cv:
+  sections:
+    Profilo:
+      - >
+        Descrizione profilo
+
+    Esperienza:
+      - company: Azienda
+        position: Research Fellow
+        start_date: 2025-06
+        location: Città
+        highlights:
+          - lavorato su cose
+
+    Formazione:
+      - institution: Università di Città
+        area: Data Science e Scientific Computing
+        degree: Laurea Magistrale in
+        start_date: 2021-12
+        end_date: 2025-09
+        highlights:
+          - "Tesi: titolo"
+
+    Competenze Tecniche:
+      - label: Programmazione e Scripting
+        details: Python, C, Bash

@@ -1,0 +1,26 @@
+cv:
+  sections:
+    Profile:
+      - >
+        Profile in english
+
+    Experience:
+      - company: Company
+        position: Position
+        start_date: 2025-06
+        location: Location
+        highlights:
+          - Worked on stuff
+
+    Education:
+      - institution: University of City
+        area: Data Science
+        degree: Master's Degree in
+        start_date: 2021-12
+        end_date: 2025-09
+        highlights:
+          - "Thesis: title"
+
+    Skills and Technologies:
+      - label: Programming and Scripting
+        details: Python, C, Bash
