@@ -70,4 +70,14 @@ pipeline {
             }
         }
     }
+
+    post {
+        always {
+            sh 'rm -f profile_picture_*.jpg'
+            sh 'rm -rf rendercv_output || true'  // optional: clean on failure
+        }
+        failure {
+            echo 'Build failed - check logs above'
+        }
+    }
 }
