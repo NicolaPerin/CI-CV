@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM python:3.12.4-slim
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -12,6 +12,6 @@ RUN apt-get update && \
     chmod +x /usr/local/bin/yq && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip install --no-cache-dir rendercv[full]
+RUN pip install --no-cache-dir rendercv[full]==2.6
 
 WORKDIR /cv
