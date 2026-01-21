@@ -1,0 +1,22 @@
+cv:
+  sections:
+    "":
+      - >
+        Autorizzo il trattamento dei miei dati personali contenuti in questo CV ai sensi del D.Lgs. 196/2003 e del Regolamento UE 679/2016 (GDPR).
+
+locale:
+  language: italian
+  present: in corso
+  month_abbreviations:
+    - "01"
+    - "02"
+    - "03"
+    - "04"
+    - "05"
+    - "06"
+    - "07"
+    - "08"
+    - "09"
+    - "10"
+    - "11"
+    - "12"

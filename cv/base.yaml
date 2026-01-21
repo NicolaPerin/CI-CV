@@ -119,25 +119,3 @@ design:
         AUTHORS
         URL (JOURNAL)
       date_and_location_column: DATE
-
-locale:
-  language: english
-  month_abbreviations:
-    - "01"
-    - "02"
-    - "03"
-    - "04"
-    - "05"
-    - "06"
-    - "07"
-    - "08"
-    - "09"
-    - "10"
-    - "11"
-    - "12"
-
-settings:
-  render_command:
-    dont_generate_markdown: false
-    dont_generate_html: false
-    dont_generate_png: false
