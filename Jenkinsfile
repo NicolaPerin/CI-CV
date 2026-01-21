@@ -47,7 +47,8 @@ pipeline {
                                     podman run --rm \
                                         -v $(pwd):/cv:Z \
                                         -e CV_NAME -e CV_LOCATION -e CV_EMAIL \
-                                        -e CV_PHONE -e CV_BIRTHDAY -e PHOTO_FILE \
+                                        -e CV_PHONE -e CV_BIRTHDAY \
+                                        -e PHOTO_FILE="${PHOTO_FILE}" \
                                         rendercv-builder \
                                         bash cv/scripts/build.sh "$LANG" "$PHOTO"
 
@@ -68,4 +69,4 @@ pipeline {
             }
         }
     }
-}   
+}

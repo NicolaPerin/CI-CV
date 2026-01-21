@@ -35,10 +35,10 @@ echo "=== Building ${VARIANT_DIR} ==="
 echo "PHOTO_FILE=${PHOTO_FILE}"
 grep -E "^  photo:" "$FINAL_YAML" || echo "No photo field found"
 
-# Render
-mkdir -p "rendercv_output/${VARIANT_DIR}"
+# Render - output to /cv which is the mounted volume
+mkdir -p "/cv/rendercv_output/${VARIANT_DIR}"
 rendercv render "$FINAL_YAML" \
-    --pdf-path "rendercv_output/${VARIANT_DIR}/Nicola_Perin_CV.pdf" \
+    --pdf-path "/cv/rendercv_output/${VARIANT_DIR}/Nicola_Perin_CV.pdf" \
     --dont-generate-html \
     --dont-generate-markdown \
     --dont-generate-png
