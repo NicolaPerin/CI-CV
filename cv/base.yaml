@@ -29,18 +29,18 @@ design:
     section_titles: rgb(0, 79, 144)
     links: rgb(0, 79, 144)
   typography:
+    line_spacing: 0.6em
+    alignment: justified
+    date_and_location_column_alignment: right
     font_family:
       body: Helvetica
       name: Helvetica
-      section_titles: Helvetica
       connections: Fontin
+      section_titles: Helvetica
     font_size:
       body: 10pt
       name: 25pt
       section_titles: 1.3em
-    line_spacing: 0.6em
-    alignment: justified
-    date_and_location_column_alignment: right
     bold:
       name: false
       section_titles: false
@@ -53,39 +53,44 @@ design:
   header:
     alignment: left
     photo_width: 3cm
+    photo_position: left
+    photo_space_left: 0cm
+    photo_space_right: 0.3cm
     space_below_name: 0.4cm
     space_below_connections: 0.7cm
-    space_between_connections: 0.5cm
     connections:
-      separator: ''
-      show_icons: true
-      hyperlink: true
-      display_urls_instead_of_usernames: false
       phone_number_format: international
+      hyperlink: true
+      show_icons: true
+      display_urls_instead_of_usernames: false
+      separator: ''
+      space_between_connections: 0.5cm
   section_titles:
     type: moderncv
     line_thickness: 0.15cm
     space_above: 0.5cm
     space_below: 0.3cm
+  sections:
+    allow_page_break: true
+    space_between_regular_entries: 0.3em
+    space_between_text_based_entries: 0.3em
+    show_time_spans_in: []
   entries:
     date_and_location_width: 2.6cm
     side_space: 0cm
     space_between_columns: 0.4cm
     allow_page_break: true
     short_second_row: false
+    summary:
+      space_above: 0.1cm
+      space_left: 0cm
     highlights:
       bullet: "•"
       nested_bullet: "-"
-      space_above: 0.25cm
       space_left: 0cm
+      space_above: 0.15cm
       space_between_items: 0.19cm
       space_between_bullet_and_text: 0.3em
-    summary:
-      space_left: 0cm
-  sections:
-    space_between_regular_entries: 0.3cm
-    allow_page_break: true
-    show_time_spans_in: []
   templates:
     one_line_entry:
       main_column: "**LABEL:** DETAILS"
@@ -114,6 +119,22 @@ design:
         AUTHORS
         URL (JOURNAL)
       date_and_location_column: DATE
+
+locale:
+  language: english
+  month_abbreviations:
+    - "01"
+    - "02"
+    - "03"
+    - "04"
+    - "05"
+    - "06"
+    - "07"
+    - "08"
+    - "09"
+    - "10"
+    - "11"
+    - "12"
 
 settings:
   render_command:
