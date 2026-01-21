@@ -1,2 +1,2 @@
 cv:
-  photo: profile_picture.jpg
+  photo: ${PHOTO_FILE}

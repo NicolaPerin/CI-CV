@@ -2,9 +2,9 @@ FROM python:3.12-slim
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+      bash \
       gettext \
       wget \
-      # Added dependencies for image rendering:
       poppler-utils \
       libvips \
     && wget -qO /usr/local/bin/yq \
