@@ -5,6 +5,11 @@ LANG="$1"
 PHOTO="$2"
 VARIANT_DIR="${LANG}-${PHOTO}"
 
+# Make PHOTO_FILE an absolute path for rendercv to find it
+if [ -n "$PHOTO_FILE" ]; then
+    export PHOTO_FILE="/cv/${PHOTO_FILE}"
+fi
+
 # Use unique temp directory per variant to avoid collisions
 WORK_DIR="/tmp/build_${VARIANT_DIR}"
 mkdir -p "$WORK_DIR"
