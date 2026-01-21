@@ -14,6 +14,7 @@ pipeline {
             steps {
                 sh '''
                     rm -rf rendercv_output
+                    rm -f profile_picture_*.jpg
                     podman build -t rendercv-builder .
                 '''
             }
