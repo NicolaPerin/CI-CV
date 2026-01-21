@@ -4,7 +4,7 @@ A Jenkins CI/CD pipeline that automatically builds multiple variants of a CV usi
 
 ## Overview
 
-This project automates the generation of CV variants in different languages and with/without a photo. A single push to the repository triggers a Jenkins pipeline that builds all variants in parallel.
+This project automates the generation of CV variants in different languages and with/without a photo. Jenkins periodically polls the repository for changes and, when new commits are detected, triggers a pipeline that builds all variants in parallel.
 
 ### Generated Variants
 
