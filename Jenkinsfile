@@ -40,7 +40,9 @@ pipeline {
                                     VARIANT_DIR="${LANG}-${PHOTO}"
                                     PHOTO_FILE="profile_picture_${VARIANT_DIR}.jpg"
 
-                                    [ "$PHOTO" = "with-photo" ] && cp "$SECRET_PHOTO_PATH" "./${PHOTO_FILE}"
+                                    if [ "$PHOTO" = "with-photo" ]; then
+                                        cp "$SECRET_PHOTO_PATH" "./${PHOTO_FILE}"
+                                    fi
 
                                     podman run --rm \
                                         -v $(pwd):/cv:Z \
@@ -49,7 +51,9 @@ pipeline {
                                         rendercv-builder \
                                         bash cv/scripts/build.sh "$LANG" "$PHOTO"
 
-                                    [ -f "./${PHOTO_FILE}" ] && rm "./${PHOTO_FILE}"
+                                    if [ -f "./${PHOTO_FILE}" ]; then
+                                        rm "./${PHOTO_FILE}"
+                                    fi
                                 '''
                             }
                         }
@@ -64,4 +68,4 @@ pipeline {
             }
         }
     }
-}
+}   
