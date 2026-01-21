@@ -20,8 +20,12 @@ pipeline {
             matrix {
                 axes {
                     axis {
-                        name 'VARIANT'
+                        name 'PHOTO'
                         values 'with-photo', 'no-photo'
+                    }
+                    axis {
+                        name 'LANG'
+                        values 'en', 'it'
                     }
                 }
 
@@ -32,38 +36,44 @@ pipeline {
                                 sh '''
                                     podman build -t rendercv-builder .
 
-                                    if [ "$VARIANT" = "with-photo" ]; then
+                                    if [ "$PHOTO" = "with-photo" ]; then
                                         cp "$SECRET_PHOTO_PATH" ./profile_picture.jpg
                                     fi
 
-                                    mkdir -p "rendercv_output/${VARIANT}"
+                                    VARIANT_DIR="${LANG}-${PHOTO}"
+                                    mkdir -p "rendercv_output/${VARIANT_DIR}"
 
                                     podman run --rm \
                                         -v $(pwd):/cv:Z \
                                         -e CV_NAME -e CV_LOCATION -e CV_EMAIL \
-                                        -e CV_PHONE -e CV_BIRTHDAY -e VARIANT \
+                                        -e CV_PHONE -e CV_BIRTHDAY \
+                                        -e PHOTO -e LANG \
                                         rendercv-builder \
                                         sh -c '
                                         set -e
-                                        TMP_YAML="cv_${VARIANT}.yaml"
-                                        FINAL_YAML="cv_${VARIANT}.final.yaml"
+                                        VARIANT_DIR="${LANG}-${PHOTO}"
+                                        TMP_YAML="cv_${VARIANT_DIR}.yaml"
+                                        FINAL_YAML="cv_${VARIANT_DIR}.final.yaml"
 
                                         cp cv/base.yaml "$TMP_YAML"
 
-                                        if [ "$VARIANT" = "with-photo" ]; then
+                                        yq eval-all "select(fileIndex == 0) * select(fileIndex == 1)" \
+                                            "$TMP_YAML" "cv/overlays/lang-${LANG}.yaml" > "${TMP_YAML}.tmp"
+                                        mv "${TMP_YAML}.tmp" "$TMP_YAML"
+
+                                        if [ "$PHOTO" = "with-photo" ]; then
                                             yq eval-all "select(fileIndex == 0) * select(fileIndex == 1)" \
-                                            "$TMP_YAML" cv/overlays/photo.yaml > "${TMP_YAML}.tmp"
+                                                "$TMP_YAML" cv/overlays/photo.yaml > "${TMP_YAML}.tmp"
                                             mv "${TMP_YAML}.tmp" "$TMP_YAML"
                                         fi
 
                                         envsubst < "$TMP_YAML" > "$FINAL_YAML"
 
                                         rendercv render "$FINAL_YAML" \
-                                            --pdf-path "rendercv_output/${VARIANT}/Nicola_Perin_CV.pdf" \
-                                            --typst-path "rendercv_output/${VARIANT}/Nicola_Perin_CV.typ" \
-                                            --markdown-path "rendercv_output/${VARIANT}/Nicola_Perin_CV.md" \
-                                            --html-path "rendercv_output/${VARIANT}/Nicola_Perin_CV.html" \
-                                            --png-path "rendercv_output/${VARIANT}/Nicola_Perin_CV.png"
+                                            --pdf-path "rendercv_output/${VARIANT_DIR}/Nicola_Perin_CV.pdf" \
+                                            --dont-generate-html \
+                                            --dont-generate-markdown \
+                                            --dont-generate-png
 
                                         rm "$TMP_YAML" "$FINAL_YAML"
                                         '
