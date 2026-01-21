@@ -1,2 +1,2 @@
 cv:
-  photo: /cv/${PHOTO_FILE}
+  photo: ${PHOTO_FILE}
