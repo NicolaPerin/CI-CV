@@ -26,10 +26,8 @@ cv:
         end_date: 2024-07
         location: Trieste
         highlights:
-          - Performed storage performance benchmarking on the ORFEO data center using containerized test setups.
-          - Built and executed automated workflows with Jenkins pipelines to ensure repeatability and comparability of results.
-          - Analyzed I/O performance metrics (IOPS, bandwidth, latency) using Jupyter Notebooks, supporting infrastructure evaluation and decision-making.
-          - Gained early exposure to data-intensive systems, performance measurement, and collaborative technical environments.
+          - Performed containerized storage performance benchmarking on the ORFEO data center.
+          - Automated test workflows with Jenkins and analyzed I/O metrics (IOPS, bandwidth, latency) in Jupyter Notebooks.
 
     Education:
       - institution: University of Trieste
@@ -38,9 +36,9 @@ cv:
         start_date: 2021-12
         end_date: 2025-09
         highlights:
-          - The program, focused on scientific computing, numerical analysis, optimization and HPC infrastructure,
-           also introduced core concepts in statistics, artificial intelligence and machine learning through project-based exams, 
-           while strengthening teamwork and collaboration skills.
+          - Program focused on scientific computing, numerical analysis, optimization, and HPC infrastructure, 
+            with project-based coursework in statistics, artificial intelligence, and machine learning.
+          - "Thesis: Designing and deploying a FAIR-by-design data pipeline and platform for electron microscopy laboratories; Final grade: 110/110"
 
       - institution: SISSA - Trieste
         area: ""
