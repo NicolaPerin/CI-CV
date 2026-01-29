@@ -22,7 +22,7 @@ cv:
 
       - company: Area Science Park
         position: Curricular Internship
-        start_date: 2024-04
+        start_date: 2024-03
         end_date: 2024-07
         location: Trieste
         highlights:
@@ -68,9 +68,8 @@ cv:
         details: Docker, Podman, Jenkins (CI/CD), Kubernetes and Helm (foundational), containerized workflows
       - label: Version Control
         details: Git, GitHub, GitLab
-      - label: Parallel and High-Performance Computing
-        details: OpenMP, MPI, OpenACC
+      - label: Parallel computing & HPC Environments
+        details: OpenMP, MPI, OpenACC, SLURM
 
     Languages:
       - "**Italian** (native) · **English** (C1, advanced)"
-
