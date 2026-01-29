@@ -68,3 +68,7 @@ cv:
         details: Git, GitHub, GitLab
       - label: Parallel and High-Performance Computing
         details: OpenMP, MPI, OpenACC
+
+    Languages:
+      - "**Italian** (native) · **English** (C1, advanced)"
+
