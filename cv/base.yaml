@@ -36,7 +36,7 @@ design:
       body: Helvetica
       name: Helvetica
       connections: Fontin
-      section_titles: Helvetica
+      section_titles: Fontin
     font_size:
       body: 10pt
       name: 25pt
