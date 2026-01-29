@@ -2,25 +2,71 @@ cv:
   sections:
     Profile:
       - >
-        Profile in english
+        MSc graduate in Data Science and Scientific Computing with a strong interest in data engineering and data integration.
+        Hands-on experience working in research environments where data workflows, infrastructure, and people intersect, 
+        supporting reliable and reproducible data pipelines from ingestion to storage and access.
 
     Experience:
-      - company: Company
-        position: Position
+
+      - company: Area Science Park
+        position: Research Fellow
         start_date: 2025-06
-        location: Location
+        end_date:
+        location: Trieste
         highlights:
-          - Worked on stuff
+          - Contributed to the design and deployment of a data management platform for electron microscopy laboratories, working at the intersection of research staff and data center engineers.
+          - Supported the development of a containerized Django web application for structured data ingestion and metadata annotation, helping ensure data consistency and traceability across workflows.
+          - Assisted in deploying and validating the application in a Kubernetes-based environment that mirrors the production HPC infrastructure, with attention to reliability and safe testing practices.
+          - Collaborated with infrastructure specialists to integrate authentication and storage services (OIDC-based authentication, S3-compatible object storage).
+          - Acted as a technical interface between domain users (microscopists) and IT teams
+
+      - company: Area Science Park
+        position: Curricular Internship
+        start_date: 2024-04
+        end_date: 2024-07
+        location: Trieste
+        highlights:
+          - Performed storage performance benchmarking on the ORFEO data center using containerized test setups.
+          - Built and executed automated workflows with Jenkins pipelines to ensure repeatability and comparability of results.
+          - Analyzed I/O performance metrics (IOPS, bandwidth, latency) using Jupyter Notebooks, supporting infrastructure evaluation and decision-making.
+          - Gained early exposure to data-intensive systems, performance measurement, and collaborative technical environments.
 
     Education:
-      - institution: University of City
-        area: Data Science
+      - institution: University of Trieste
+        area: Data Science and Scientific Computing
         degree: Master's Degree in
         start_date: 2021-12
         end_date: 2025-09
         highlights:
-          - "Thesis: title"
+          - The program, focused on scientific computing, numerical analysis, optimization and HPC infrastructure,
+           also introduced core concepts in statistics, artificial intelligence and machine learning through project-based exams, 
+           while strengthening teamwork and collaboration skills.
+
+      - institution: SISSA - Trieste
+        area: ""
+        degree: "Specialization course: Master in Data Management and Curation"
+        start_date: 2024-09
+        end_date: 2025-05
+        highlights:
+          - Professional course focused on Open Science principles and end-to-end scientific data lifecycle management. Developed practical skills in Python programming, cloud environments, data infrastructures, statistical analysis and machine learning techniques.
+
+      - institution: University of Trieste
+        area: Physics
+        degree: Bachelor's Degree in
+        start_date: 2017-09
+        end_date: 2021-12
+        highlights:
+          - Foundational training in theoretical and experimental physics, mathematics, and computational methods.
+          - "Thesis: Analysis of gamma emission from the radio galaxy M87; Final grade: 99/110"
 
     Skills and Technologies:
       - label: Programming and Scripting
-        details: Python, C, Bash
+        details: Python, C, Fortran, Bash
+      - label: Operating Systems
+        details: Linux (daily use in research and infrastructure environments)
+      - label: Cloud & Infrastructure Tools
+        details: Docker, Podman, Jenkins (CI/CD), Kubernetes and Helm (foundational), containerized workflows
+      - label: Version Control
+        details: Git, GitHub, GitLab
+      - label: Parallel and High-Performance Computing
+        details: OpenMP, MPI, OpenACC
