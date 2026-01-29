@@ -62,6 +62,8 @@ cv:
         details: Python, C, Fortran, Bash
       - label: Operating Systems
         details: Linux (daily use in research and infrastructure environments)
+      - label: Databases
+        details: Relational databases, Django ORM, introductory SQL
       - label: Cloud & Infrastructure Tools
         details: Docker, Podman, Jenkins (CI/CD), Kubernetes and Helm (foundational), containerized workflows
       - label: Version Control
