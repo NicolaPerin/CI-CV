@@ -20,7 +20,7 @@ design:
     bottom_margin: 1.3cm
     left_margin: 1.3cm
     right_margin: 1.3cm
-    show_footer: false
+    show_footer: true
     show_top_note: false
   colors:
     body: rgb(0, 0, 0)
