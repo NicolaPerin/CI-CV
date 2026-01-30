@@ -4,7 +4,7 @@ cv:
       - >
         MSc graduate in Data Science and Scientific Computing with a strong interest in data engineering and data integration.
         Hands-on experience in research environments where data workflows, infrastructure, and people intersect, 
-        supporting reliable and reproducible data pipelines from ingestion to storage and access.
+        supporting reliable and reproducible data pipelines across their lifecycle.
 
     Experience:
 
@@ -36,8 +36,8 @@ cv:
         start_date: 2021-12
         end_date: 2025-09
         highlights:
-          - Program focused on scientific computing, numerical analysis, optimization, and HPC infrastructure, 
-            with project-based coursework in statistics, artificial intelligence, and machine learning.
+          - Program focused on scientific computing, numerical analysis, optimization, HPC infrastructure, statistics, 
+            artificial intelligence, and machine learning, delivered through collaborative project work.
           - "Thesis: Designing and deploying a FAIR-by-design data pipeline and platform for electron microscopy laboratories; Final grade: 110/110"
 
       - institution: SISSA - Trieste
