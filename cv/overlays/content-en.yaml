@@ -2,10 +2,10 @@ cv:
   sections:
     Profile:
       - >
-        MSc graduate in Data Science and Scientific Computing with a strong interest in data engineering and data integration.
-        Hands-on experience in research environments where data workflows, infrastructure, and people intersect, 
-        supporting reliable and reproducible data pipelines across their lifecycle.
-
+        MSc graduate in Data Science and Scientific Computing with practical experience in designing and deploying FAIR-oriented research data workflows. 
+        Worked on the development of a containerised web platform integrated with distributed storage (Ceph/S3) and deployed in a Kubernetes (K3s) environment within an HPC data centre context. 
+        BSc Physics graduate with experience analysing Fermi-LAT gamma-ray data, providing familiarity with space mission data products and scientific archive workflows.
+    
     Experience:
 
       - company: Area Science Park
@@ -14,11 +14,10 @@ cv:
         end_date:
         location: Trieste
         highlights:
-          - Contributed to the design and deployment of a data management platform for electron microscopy laboratories, working at the intersection of research staff and data center engineers.
-          - Supported the development of a containerized Django web application for structured data ingestion and metadata annotation, helping ensure data consistency and traceability across workflows.
-          - Assisted in deploying and validating the application in a Kubernetes-based environment that mirrors the production HPC infrastructure, with attention to reliability and safe testing practices.
-          - Collaborated with infrastructure specialists to integrate authentication and storage services (OIDC-based authentication, S3-compatible object storage).
-          - Acted as a technical interface between domain users (microscopists) and IT teams
+          - Acted as a link between the data center operations team and electron microscopy researchers in the design and deployment of a data management platform aligned with NFFA-DI FAIR guidelines, 
+            implementing workflows that extract and normalise microscope metadata into the NeXus (HDF5) NXem schema to support archival integration and reuse
+          - Integrated S3-compatible object storage (Ceph RGW) and OIDC-based authentication (Authentik) into a containerized Django web application, 
+            deployed on Kubernetes in a virtualised replica of the production HPC infrastructure that serves as a staging environment.
 
       - company: Area Science Park
         position: Curricular Internship
@@ -26,8 +25,9 @@ cv:
         end_date: 2024-07
         location: Trieste
         highlights:
-          - Performed containerized storage performance benchmarking on the ORFEO data center.
-          - Automated test workflows with Jenkins and analyzed I/O metrics (IOPS, bandwidth, latency) in Jupyter Notebooks.
+          - Developed containerized environments (Podman) with automated fio-based I/O benchmark pipelines,
+            executed via shell scripts and Jenkins CI across multiple Fedora configurations, ensuring reproducible results across platforms.
+          - Analysed benchmark results in a Jupyter notebook (IOPS, bandwidth, CPU utilisation, latency); wrote a Lua module for fio to enable loading it as an environment module on the HPC cluster.
 
     Education:
       - institution: University of Trieste
@@ -55,7 +55,7 @@ cv:
         end_date: 2021-12
         highlights:
           - Foundational training in theoretical and experimental physics, mathematics, and computational methods.
-          - "Thesis: Analysis of gamma emission from the radio galaxy M87; Final grade: 99/110"
+          - "Thesis: Analysis of gamma-ray emission from M87; performed maximum-likelihood spectral analysis (Fermipy/Python) on 12 years of Fermi-LAT data, with focus on the 2018 Event Horizon Telescope campaign. Final grade: 99/110."
 
     Skills and Technologies:
       - label: Programming and Scripting
@@ -64,6 +64,8 @@ cv:
         details: Linux (daily use in research and infrastructure environments)
       - label: Databases
         details: Relational databases, Django ORM, introductory SQL
+      - label: Scientific data standards
+        details: NeXus/HDF5, FITS (Fermi-LAT data analysis), FAIR data principles
       - label: Cloud & Infrastructure Tools
         details: Docker, Podman, Jenkins (CI/CD), Kubernetes and Helm (foundational), containerized workflows
       - label: Version Control
