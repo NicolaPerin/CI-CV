@@ -1,8 +1,8 @@
-cv:
-  sections:
-    "":
-      - >
-        I authorize the processing of my personal data contained in this CV pursuant to Italian Legislative Decree 196/2003 and EU Regulation 679/2016 (GDPR).
+#cv:
+#  sections:
+#    "":
+#      - >
+#        I authorize the processing of my personal data contained in this CV pursuant to Italian Legislative Decree 196/2003 and EU Regulation 679/2016 (GDPR).
 
 locale:
   language: english
