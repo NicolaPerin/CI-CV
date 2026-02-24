@@ -3,12 +3,10 @@ cv:
     Profile:
       - >
         MSc graduate in Data Science and Scientific Computing with hands-on experience in data engineering
-        and the design of FAIR-oriented research data workflows. Worked on the development of a containerised
-        web platform integrated with distributed storage (Ceph/S3) and deployed in a Kubernetes environment
-        within an HPC data center context. Physics graduate with experience analysing Fermi-LAT gamma-ray
-        data, providing familiarity with space mission data products and scientific archive workflows.
-        Currently attending the MINERVA EuroHPC Winter AI School (February 2026), deepening practical
-        skills in large-scale AI training and HPC-based model development.
+        and FAIR-oriented research data workflows. Worked on the development of a containerised web platform
+        integrated with distributed storage (Ceph/S3) and deployed in a Kubernetes environment within an
+        HPC data centre context. Physics graduate with experience analysing Fermi-LAT gamma-ray data,
+        providing familiarity with space mission data products and scientific archive workflows.
 
     Experience:
 
@@ -18,15 +16,14 @@ cv:
         end_date:
         location: Trieste
         highlights:
-          - Acted as a link between the data center operations team and electron microscopy researchers
+          - Acted as a link between the data centre operations team and electron microscopy researchers
             in the design and deployment of a data management platform aligned with NFFA-DI FAIR guidelines,
             implementing workflows that extract and normalise microscope metadata into the NeXus (HDF5)
             NXem schema to support archival integration and reuse.
           - Integrated S3-compatible object storage (Ceph RGW) and OIDC-based authentication (Authentik)
             into a containerised Django web application, deployed on Kubernetes in a virtualised replica
-            of the production HPC infrastructure that serves as a staging environment.
-          - Developed the application following test-driven development practices and CI/CD pipelines,
-            maintaining a dev/staging/production branch strategy throughout.
+            of the production HPC infrastructure that serves as a staging environment; followed
+            test-driven development practices and CI/CD pipelines throughout.
 
       - company: Area Science Park
         position: Curricular Internship
@@ -48,8 +45,7 @@ cv:
         end_date: 2025-09
         highlights:
           - Program focused on scientific computing, numerical analysis, optimization, HPC infrastructure,
-            statistics, artificial intelligence, and machine learning, delivered through collaborative
-            project work.
+            statistics, artificial intelligence, and machine learning.
           - "Thesis: Designing and deploying a FAIR-by-design data pipeline and platform for electron
             microscopy laboratories; Final grade: 110/110"
 
@@ -59,9 +55,8 @@ cv:
         start_date: 2024-09
         end_date: 2025-05
         highlights:
-          - Professional course focused on Open Science principles and end-to-end scientific data lifecycle
-            management. Developed practical skills in Python programming, cloud environments, data
-            infrastructures, statistical analysis and machine learning techniques.
+          - Professional course on Open Science principles and end-to-end scientific data lifecycle
+            management, covering cloud environments, data infrastructures, and machine learning techniques.
 
       - institution: University of Trieste
         area: Physics
