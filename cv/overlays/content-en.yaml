@@ -20,10 +20,8 @@ cv:
             in the design and deployment of a data management platform aligned with NFFA-DI FAIR guidelines,
             implementing workflows that extract and normalise microscope metadata into the NeXus (HDF5)
             NXem schema to support archival integration and reuse.
-          - Integrated S3-compatible object storage (Ceph RGW) and OIDC-based authentication (Authentik)
-            into a containerised Django web application, deployed on Kubernetes in a virtualised replica
-            of the production HPC infrastructure that serves as a staging environment; followed
-            test-driven development practices and CI/CD pipelines throughout.
+          - Integrated S3-compatible storage (Ceph RGW) and OIDC authentication (Authentik) into a containerized Django app deployed on Kubernetes 
+            in a virtualized replica of the production HPC staging environment, following TDD and CI/CD practices.
 
       - company: Area Science Park
         position: Curricular Internship
