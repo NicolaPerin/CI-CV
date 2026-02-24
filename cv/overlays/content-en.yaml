@@ -19,7 +19,7 @@ cv:
           - Served as the link between data center operations team and electron microscopy researchers to design and deploy a FAIR-aligned data management platform, 
             implementing workflows that extract and normalize microscope metadata into the NeXus (HDF5) NXem schema for archival integration and reuse.
           - Integrated S3-compatible storage (Ceph RGW) and OIDC authentication (Authentik) into a containerized Django app deployed on Kubernetes 
-            in a virtualized replica of the production HPC staging environment, following TDD and CI/CD practices.
+            in a virtualized replica of the production HPC environment, following TDD and CI/CD practices.
 
       - company: Area Science Park
         position: Curricular Internship
