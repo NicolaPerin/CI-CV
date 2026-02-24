@@ -5,7 +5,7 @@ cv:
         MSc graduate in Data Science and Scientific Computing with hands-on experience in data engineering
         and FAIR-oriented research data workflows. Worked on the development of a containerised web platform
         integrated with distributed storage (Ceph/S3) and deployed in a Kubernetes environment within an
-        HPC data centre context. Physics graduate with experience analysing Fermi-LAT gamma-ray data,
+        HPC data center context. Physics graduate with experience analysing Fermi-LAT gamma-ray data,
         providing familiarity with space mission data products and scientific archive workflows.
 
     Experience:
@@ -16,7 +16,7 @@ cv:
         end_date:
         location: Trieste
         highlights:
-          - Acted as a link between the data centre operations team and electron microscopy researchers
+          - Acted as a link between the data center operations team and electron microscopy researchers
             in the design and deployment of a data management platform aligned with NFFA-DI FAIR guidelines,
             implementing workflows that extract and normalise microscope metadata into the NeXus (HDF5)
             NXem schema to support archival integration and reuse.
@@ -31,9 +31,8 @@ cv:
         end_date: 2024-07
         location: Trieste
         highlights:
-          - Developed containerised environments (Podman) with automated fio-based I/O benchmark pipelines,
-            executed via shell scripts and Jenkins CI across multiple Fedora configurations, ensuring
-            reproducible results across platforms.
+          - Built containerized (Podman) environments with automated fio I/O benchmarks, executed via shell scripts and Jenkins CI across multiple 
+            Fedora setups to ensure reproducible cross-platform results.
           - Analysed benchmark results in a Jupyter notebook (IOPS, bandwidth, CPU utilisation, latency);
             wrote a Lua module for fio to enable loading it as an environment module on the HPC cluster.
 
