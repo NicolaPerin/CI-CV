@@ -40,6 +40,7 @@ cv:
         start_date: 2021-12
         end_date: 2025-09
         highlights:
+          - Curriculum focused on scientific computing, HPC, optimization, statistics, and machine learning.
           - "Thesis: Designing and deploying a FAIR-by-design data pipeline and platform for
             electron microscopy laboratories; Final grade: 110/110"
 
@@ -58,10 +59,11 @@ cv:
         start_date: 2017-09
         end_date: 2021-12
         highlights:
+          - Foundational training in theoretical and experimental physics, mathematics, and computational methods.
           - "Thesis: Analysis of gamma-ray emission from M87; maximum-likelihood spectral analysis
             (Fermipy/Python) on 12 years of Fermi-LAT data. Final grade: 99/110."
 
-      - institution: MINERVA – EuroHPC Joint Undertaking
+      - institution: MINERVA - EuroHPC Joint Undertaking
         area: ""
         degree: "Winter AI School"
         start_date: 2026-02
@@ -86,3 +88,6 @@ cv:
 
     Languages:
       - "**Italian** (native) · **English** (C1, advanced)"
+
+    "":
+      - I authorize the processing of my personal data contained in this CV pursuant to Italian Legislative Decree 196/2003 and EU Regulation 679/2016 (GDPR).
