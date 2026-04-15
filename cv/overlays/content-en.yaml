@@ -2,11 +2,11 @@ cv:
   sections:
     Profile:
       - >
-        MSc graduate in Data Science and Scientific Computing with hands-on experience in data engineering
-        and FAIR-oriented research data workflows. Worked on the development of a containerised web platform
-        integrated with distributed storage (Ceph/S3) and deployed in a Kubernetes environment within an
-        HPC data center context. Physics graduate with experience analysing Fermi-LAT gamma-ray data,
-        providing familiarity with space mission data products and scientific archive workflows.
+        MSc in Data Science and Scientific Computing with hands-on experience across the full
+        software development lifecycle, from backend web development to cloud-native deployment
+        and HPC infrastructure. Comfortable working at the intersection of systems engineering
+        and data-intensive applications, with strong Python and C skills and experience in
+        containerised environments, distributed storage, and CI/CD pipelines.
 
     Experience:
 
@@ -16,10 +16,11 @@ cv:
         end_date:
         location: Trieste
         highlights:
-          - Served as the link between data center operations team and electron microscopy researchers to design and deploy a FAIR-aligned data management platform, 
-            implementing workflows that extract and normalize microscope metadata into the NeXus (HDF5) NXem schema for archival integration and reuse.
-          - Integrated S3-compatible storage (Ceph RGW) and OIDC authentication (Authentik) into a containerized Django app deployed on Kubernetes 
-            in a virtualized replica of the production HPC environment, following TDD and CI/CD practices.
+          - Designed and deployed a Django-based data management platform on Kubernetes,
+            integrating Ceph S3-compatible storage and OIDC authentication (Authentik),
+            following TDD and CI/CD practices.
+          - Contributed to the deployment of a virtualised HPC cluster (k3s, FreeIPA, Ceph, Slurm)
+            on Fedora, resolving infrastructure-level issues and upstreaming fixes.
 
       - company: Area Science Park
         position: Curricular Internship
@@ -27,10 +28,10 @@ cv:
         end_date: 2024-07
         location: Trieste
         highlights:
-          - Built containerized (Podman) environments with automated fio I/O benchmarks, executed via shell scripts and Jenkins CI across multiple 
-            Fedora setups to ensure reproducible cross-platform results.
-          - Analysed benchmark results in a Jupyter notebook (IOPS, bandwidth, CPU utilisation, latency);
-            wrote a Lua module for fio to enable loading it as an environment module on the HPC cluster.
+          - Built containerised benchmarking environments (Podman, fio) with Jenkins CI for
+            reproducible I/O performance testing across HPC storage configurations.
+          - Analysed benchmark results (IOPS, bandwidth, latency) in Python; developed a Lua
+            module to integrate fio with the HPC environment module system.
 
     Education:
       - institution: University of Trieste
@@ -39,10 +40,8 @@ cv:
         start_date: 2021-12
         end_date: 2025-09
         highlights:
-          - Program focused on scientific computing, numerical analysis, optimization, HPC infrastructure,
-            statistics, artificial intelligence, and machine learning.
-          - "Thesis: Designing and deploying a FAIR-by-design data pipeline and platform for electron
-            microscopy laboratories; Final grade: 110/110"
+          - "Thesis: Designing and deploying a FAIR-by-design data pipeline and platform for
+            electron microscopy laboratories; Final grade: 110/110"
 
       - institution: SISSA - Trieste
         area: ""
@@ -51,7 +50,7 @@ cv:
         end_date: 2025-05
         highlights:
           - Professional course on Open Science principles and end-to-end scientific data lifecycle
-            management, covering cloud environments, data infrastructures, and machine learning techniques.
+            management, covering cloud environments, data infrastructures, and machine learning.
 
       - institution: University of Trieste
         area: Physics
@@ -59,10 +58,8 @@ cv:
         start_date: 2017-09
         end_date: 2021-12
         highlights:
-          - Foundational training in theoretical and experimental physics, mathematics, and computational methods.
-          - "Thesis: Analysis of gamma-ray emission from M87; performed maximum-likelihood spectral analysis
-            (Fermipy/Python) on 12 years of Fermi-LAT data, with focus on the 2018 Event Horizon Telescope
-            campaign. Final grade: 99/110."
+          - "Thesis: Analysis of gamma-ray emission from M87; maximum-likelihood spectral analysis
+            (Fermipy/Python) on 12 years of Fermi-LAT data. Final grade: 99/110."
 
       - institution: MINERVA – EuroHPC Joint Undertaking
         area: ""
@@ -70,27 +67,22 @@ cv:
         start_date: 2026-02
         end_date: 2026-02
         highlights:
-          - Five-day intensive school covering CNNs, Vision Transformers, LLMs, data and model parallelism,
-            and large-scale AI training optimisation on HPC infrastructure (CINECA, Bologna).
+          - Five-day intensive school on CNNs, Vision Transformers, LLMs, data and model
+            parallelism, and large-scale AI training on HPC infrastructure (CINECA, Bologna).
 
     Skills and Technologies:
       - label: Programming and Scripting
-        details: Python, C, Fortran, Bash
-      - label: Operating Systems
-        details: Linux (daily use in research and infrastructure environments)
-      - label: Databases
-        details: Relational databases, Django ORM, SQL
-      - label: Scientific Data Standards
-        details: NeXus/HDF5, FITS (Fermi-LAT data analysis), FAIR data principles
+        details: Python, C, Bash
+      - label: Web and Backend
+        details: Django, REST APIs, SQL
       - label: Cloud and Infrastructure
-        details: Docker, Podman, Kubernetes, Helm, Ceph RGW (S3-compatible object storage),
-                 Jenkins (CI/CD), GitLab CI, containerised workflows
-      - label: Machine Learning
-        details: scikit-learn, PyTorch
+        details: Docker, Kubernetes/Helm (foundational), S3/Ceph, Jenkins, GitHub Actions
+      - label: Parallel Computing and HPC
+        details: OpenMP, MPI, OpenACC, Slurm
       - label: Version Control
         details: Git, GitHub, GitLab
-      - label: Parallel Computing and HPC
-        details: OpenMP, MPI, OpenACC, SLURM
+      - label: Operating Systems
+        details: Linux (daily use)
 
     Languages:
       - "**Italian** (native) · **English** (C1, advanced)"
